@@ -54,35 +54,20 @@ public class Main {
     }
 
     public static int solution(int[] A) {
-        int sellDay = 0;
-        int buyDay = 0;
-        int maxPrice = A[sellDay];
-        int minPrice = A[buyDay];
+        int maxProfit = 0;
+        int cumProfit = 0;
 
-        // loop through array
         for (int i=1; i<A.length; i++) {
-            // if current maxPrice is lower than A[i] then set maxPrice to A[i]
-            // or if maxPrice is the same as minPrice
-            // also set sellDay to i, this is to prevent sellDay < buyDay
-            if (maxPrice < A[i] || maxPrice == minPrice) {
-                sellDay = i;
-                maxPrice = A[sellDay];
+            cumProfit += A[i] - A[i - 1];
+            if (cumProfit < 0) {
+                cumProfit = 0;
             }
 
-            // if current minPrice is higher than A[i] then set minPrice to A[i]
-            // and if buyDay is before sellDay
-            if (minPrice > A[i] && buyDay < sellDay) {
-                // if current i is after sellDay, skip this
-                // because the stock has to be bought first
-                if (i > sellDay) {
-                    continue;
-                }
-                buyDay = i;
-                minPrice = A[buyDay];
+            if (cumProfit > maxProfit) {
+                maxProfit = cumProfit;
             }
         }
 
-        return maxPrice - minPrice;
+        return maxProfit;
     }
-
 }
